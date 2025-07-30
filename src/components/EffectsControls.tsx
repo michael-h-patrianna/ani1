@@ -38,7 +38,7 @@ export default function EffectsControls({ onEffectChange, currentEffect }: Props
         </button>
       </div>
       <p className={styles.description}>
-        Click buttons above to test the mobile game charging effect behind the right icon in the progress bar. V4 is the default gift celebration animation! V3 is the advanced physics-driven energy system!
+        Click buttons above to test the animation effects behind the right icon in the progress bar. V4 is the default celebration animation! V3 is the advanced physics-driven energy system!
       </p>
     </div>
   );

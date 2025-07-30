@@ -85,8 +85,8 @@ export default function IconEffectsV9({ className, onShakeIcon }: Props) {
         })}
       </div>
 
-      {/* Celebration hearts - pure joy */}
-      <div className={styles.heartContainer}>
+      {/* Celebration particles - pure joy */}
+      <div className={styles.particleContainer}>
         {Array.from({ length: 15 }).map((_, i) => {
           const angle = Math.random() * 360;
           const radius = 20 + Math.random() * 35;
@@ -95,15 +95,15 @@ export default function IconEffectsV9({ className, onShakeIcon }: Props) {
 
           return (
             <div
-              key={`heart-${animationKey}-${i}`}
-              className={styles.celebrationHeart}
+              key={`particle-${animationKey}-${i}`}
+              className={styles.celebrationParticle}
               style={{
                 left: `calc(100% - 29px + ${x}px)`,
                 top: `calc(50% + ${y}px)`,
                 animationDelay: `${400 + Math.random() * 800}ms`,
-                '--heart-scale': 0.3 + Math.random() * 0.5,
+                '--particle-scale': 0.3 + Math.random() * 0.5,
               } as React.CSSProperties & {
-                '--heart-scale': number;
+                '--particle-scale': number;
               }}
             />
           );
