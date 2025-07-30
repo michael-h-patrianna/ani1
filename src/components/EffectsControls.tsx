@@ -28,18 +28,16 @@ export default function EffectsControls({ onEffectChange, currentEffect }: Props
           className={currentEffect === 'v3' ? styles.active : ''}
           onClick={() => onEffectChange('v3')}
         >
-          V3 ⭐
+          V3
         </button>
         <button
           className={currentEffect === 'v4' ? styles.active : ''}
           onClick={() => onEffectChange('v4')}
         >
-          V4 🎁
+          V4
         </button>
       </div>
-      <p className={styles.description}>
-        Click buttons above to test the animation effects behind the right icon in the progress bar. V4 is the default celebration animation! V3 is the advanced physics-driven energy system!
-      </p>
+
     </div>
   );
 }
