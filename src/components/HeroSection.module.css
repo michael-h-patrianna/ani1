@@ -1,0 +1,89 @@
+.hero {
+  position: relative;
+  width: 100%;
+  height: 310px;
+  overflow: hidden;
+  --feature-icons-grid-height: 250px;
+  --feature-icons-grid-item-max-width: 64px;
+  --feature-icons-grid-item-max-height: 74px;
+}
+
+.background {
+  position: absolute;
+  inset: 0;
+  background-image: url('../assets/header-background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.mainContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 18px 12px;
+  max-width: 1160px;
+  margin: auto;
+  width: 100%;
+  z-index: 10;
+}
+
+.logo {
+  height: 28px;
+  width: auto;
+}
+
+.gridContainer {
+  position: absolute;
+  top: 54px; /* Below the logo container (18px top padding + 28px logo height + 8px gap) */
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.iconsGrid {
+  position: relative;
+  display: grid;
+  width: 100%;
+  height: var(--feature-icons-grid-height);
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: 75px 1fr 75px;
+  max-width: none;
+  margin: 0;
+}
+
+.gridCell {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.gridIcon {
+  width: 100%;
+  max-width: 64px;
+  object-fit: contain;
+}
+
+/* Add some glow effect */
+.promoImage::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: var(--gradient-rainbow);
+  border-radius: var(--border-radius-lg);
+  z-index: -1;
+  opacity: 0.3;
+  filter: blur(8px);
+}

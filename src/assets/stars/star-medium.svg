@@ -1,0 +1,23 @@
+<svg width="3" height="2" viewBox="0 0 3 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path style="mix-blend-mode:screen" d="M1.78538 1.91054C1.41635 2.06764 1.00143 1.86632 0.858691 1.46103C0.715946 1.05574 0.89901 0.599978 1.26766 0.443031C1.63676 0.28613 2.05154 0.487041 2.19435 0.89254C2.33728 1.29775 2.15429 1.75372 1.78538 1.91054Z" fill="url(#paint0_radial_887_53931)"/>
+<defs>
+<radialGradient id="paint0_radial_887_53931" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1.52295 1.17516) rotate(70.5791) scale(0.778195 0.724548)">
+<stop stop-color="white"/>
+<stop offset="0.03" stop-color="#FDE6C2"/>
+<stop offset="0.05" stop-color="#FBD192"/>
+<stop offset="0.08" stop-color="#FAC36F"/>
+<stop offset="0.09" stop-color="#FABA59"/>
+<stop offset="0.11" stop-color="#FAB752"/>
+<stop offset="0.19" stop-color="#F36F22"/>
+<stop offset="0.24" stop-color="#9F4916"/>
+<stop offset="0.26" stop-color="#813B12"/>
+<stop offset="0.28" stop-color="#662E0E"/>
+<stop offset="0.3" stop-color="#5C2A0D"/>
+<stop offset="0.4" stop-color="#451F09"/>
+<stop offset="0.56" stop-color="#271105"/>
+<stop offset="0.71" stop-color="#110702"/>
+<stop offset="0.86" stop-color="#040200"/>
+<stop offset="1"/>
+</radialGradient>
+</defs>
+</svg>

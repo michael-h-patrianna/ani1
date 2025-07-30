@@ -1,0 +1,38 @@
+.pageContainer {
+  width: 375px;
+  height: 100vh;
+  margin: 0 auto;
+  overflow: hidden;
+  background-color: var(--color-background);
+}
+
+.app {
+  min-height: 100vh;
+  background-color: var(--color-background);
+}
+
+.main {
+  width: 100%;
+  max-width: var(--mobile-width);
+  margin: 0 auto;
+  background-color: var(--color-background);
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .main {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .main {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .main {
+    max-width: 1200px;
+  }
+}

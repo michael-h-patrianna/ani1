@@ -1,0 +1,96 @@
+/**
+ * V9 - Clean Gift Box Celebration System
+ * Features: Unamused faces, sparkles, and confetti without glow/shake/yellow elements
+ */
+
+.effectsContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Celebration sparkles - gentle colorful sparkles */
+.celebrationCloud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.celebrationSparkle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  opacity: 0;
+  animation: sparkleAnimation 2s ease-out forwards;
+}
+
+/* Sparkle colors - simplified using CSS custom properties */
+.celebrationSparkle:nth-child(4n+1) { background: radial-gradient(circle, #ff6b6b, transparent); }
+.celebrationSparkle:nth-child(4n+2) { background: radial-gradient(circle, #4ecdc4, transparent); }
+.celebrationSparkle:nth-child(4n+3) { background: radial-gradient(circle, #45b7d1, transparent); }
+.celebrationSparkle:nth-child(4n+4) { background: radial-gradient(circle, #96ceb4, transparent); }
+
+/* Confetti pieces - consolidated styles */
+.confetti {
+  position: absolute;
+  width: 6px;
+  height: 4px;
+  border-radius: 2px;
+  opacity: 0;
+  animation: confettiAnimation 3s ease-out forwards;
+}
+
+/* Confetti variations - simplified */
+.confetti:nth-child(4n+1) { background: linear-gradient(45deg, #ff6f61, #ff9800); }
+.confetti:nth-child(4n+2) { background: linear-gradient(45deg, #4caf50, #8bc34a); width: 4px; height: 6px; }
+.confetti:nth-child(4n+3) { background: linear-gradient(45deg, #2196f3, #673ab7); width: 5px; height: 3px; border-radius: 50%; }
+.confetti:nth-child(4n+4) { background: linear-gradient(45deg, #e91e63, #ff6f61); width: 3px; height: 7px; }
+
+/* Simple colorful circles - minimal and elegant */
+.celebrationHeart {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(calc(var(--heart-scale, 0.4)));
+  animation: faceAnimation 2.5s ease-out forwards;
+  filter: blur(0.5px);
+}
+
+/* Color variations using nth-child for variety */
+.celebrationHeart:nth-child(4n+1) { background: radial-gradient(circle, #ff6b9d, #c44569); }
+.celebrationHeart:nth-child(4n+2) { background: radial-gradient(circle, #4ecdc4, #26a69a); }
+.celebrationHeart:nth-child(4n+3) { background: radial-gradient(circle, #ffd93d, #f39c12); }
+.celebrationHeart:nth-child(4n+4) { background: radial-gradient(circle, #a29bfe, #6c5ce7); }
+
+/* Simplified animations */
+@keyframes sparkleAnimation {
+  0% { opacity: 0; transform: scale(0); }
+  20% { opacity: 0.8; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0) translateY(-20px); }
+}
+
+@keyframes confettiAnimation {
+  0% { opacity: 0; transform: translateY(0) scale(0.5); }
+  15% { opacity: 1; transform: translateY(5px) translateX(calc(var(--drift-x, 0) * 0.2px)) rotate(45deg) scale(1); }
+  40% { opacity: 1; transform: translateY(calc(var(--drift-y, 20) * 0.4px)) translateX(calc(var(--drift-x, 0) * 0.6px)) rotate(180deg) scale(0.8); }
+  70% { opacity: 0.8; transform: translateY(calc(var(--drift-y, 20) * 0.8px)) translateX(calc(var(--drift-x, 0) * 0.9px)) rotate(270deg) scale(0.6); }
+  100% { opacity: 0; transform: translateY(calc(var(--drift-y, 20) * 1.2px)) translateX(calc(var(--drift-x, 0) * 1.1px)) rotate(360deg) scale(0.2); }
+}
+
+@keyframes faceAnimation {
+  0% { opacity: 0; transform: scale(0); }
+  20% { opacity: 1; transform: scale(calc(var(--heart-scale, 0.4))); }
+  100% { opacity: 0; transform: scale(0) translateY(-40px); }
+}
+

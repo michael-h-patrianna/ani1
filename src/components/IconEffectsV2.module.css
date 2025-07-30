@@ -1,0 +1,983 @@
+/**
+ * V8 - Advanced Physics-Driven Energy System
+ * Features: Multi-phase energy containment failure with realistic propagation physics
+ */
+
+.effectsContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  /* Add subtle container shake for extreme realism */
+  animation: containerDistortion 2.5s ease-out;
+}
+
+@keyframes containerDistortion {
+  0%, 100% { transform: translateX(0); }
+  5% { transform: translateX(0.1px); }
+  15% { transform: translateX(-0.2px); }
+  30% { transform: translateX(0.1px); }
+  48% { transform: translateX(-0.3px); }
+  52% { transform: translateX(0.2px); }
+  72% { transform: translateX(-0.4px); }
+  76% { transform: translateX(0.3px); }
+}
+
+/* Energy core - the source of all energy */
+.energyCore {
+  position: absolute;
+  top: 50%;
+  left: calc(100% - 29px);
+  width: 12px;
+  height: 12px;
+  background: radial-gradient(circle,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.8) 30%,
+    rgba(255, 255, 255, 0.5) 60%,
+    transparent 100%
+  );
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: energyCoreFluctuation 2.5s ease-out;
+  filter: blur(1px);
+  z-index: 5;
+}
+
+@keyframes energyCoreFluctuation {
+  0% {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(0.5);
+    filter: blur(2px);
+  }
+  8% {
+    opacity: 0.7;
+    transform: translate(-50%, -50%) scale(0.8);
+    filter: blur(1.5px);
+  }
+  15% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1.1);
+    filter: blur(1px);
+  }
+  30% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.3);
+    filter: blur(0.5px);
+  }
+  48% {
+    opacity: 0.8;
+    transform: translate(-49%, -51%) scale(1.5);
+    filter: blur(0.8px);
+  }
+  52% {
+    opacity: 1;
+    transform: translate(-51%, -49%) scale(1.7);
+    filter: blur(0.3px);
+  }
+  72% {
+    opacity: 0.6;
+    transform: translate(-48%, -52%) scale(2.0);
+    filter: blur(1px);
+  }
+  76% {
+    opacity: 0.9;
+    transform: translate(-52%, -48%) scale(2.2);
+    filter: blur(0.5px);
+  }
+  90% {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1.8);
+    filter: blur(1.5px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+    filter: blur(3px);
+  }
+}
+
+/* Primary charging glow - energy accumulation */
+.chargingGlow {
+  position: absolute;
+  top: 50%;
+  left: calc(100% - 29px);
+  width: 64px;
+  height: 64px;
+  background: radial-gradient(circle,
+    rgba(255, 255, 255, 0.0) 0%,
+    rgba(255, 255, 255, 0.6) 10%,
+    rgba(255, 255, 255, 0.4) 25%,
+    rgba(255, 255, 255, 0.3) 45%,
+    rgba(255, 255, 255, 0.1) 65%,
+    transparent 100%
+  );
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: masterGlowSequence 2.5s ease-out;
+  filter: blur(24px);
+  z-index: 1;
+  opacity: 0;
+}
+
+/* Pressure glow - containment failure indicator */
+.pressureGlow {
+  position: absolute;
+  top: 50%;
+  left: calc(100% - 29px);
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle,
+    rgba(255, 255, 255, 0.0) 0%,
+    rgba(255, 255, 255, 0.3) 20%,
+    rgba(255, 255, 255, 0.2) 40%,
+    rgba(255, 255, 255, 0.15) 60%,
+    transparent 100%
+  );
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: pressureGlowSequence 2.5s ease-out;
+  filter: blur(32px);
+  z-index: 0;
+  opacity: 0;
+}
+
+@keyframes masterGlowSequence {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+  5% { opacity: 0.15; transform: translate(-50%, -50%) scale(0.4); }
+  12% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.7); }
+  20% { opacity: 0.45; transform: translate(-50%, -50%) scale(0.9); }
+  30% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.1); }
+  48% { opacity: 0.45; transform: translate(-49%, -51%) scale(1.3); }
+  52% { opacity: 0.7; transform: translate(-51%, -49%) scale(1.4); }
+  65% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.2); }
+  72% { opacity: 0.35; transform: translate(-48%, -52%) scale(1.5); }
+  76% { opacity: 0.6; transform: translate(-52%, -48%) scale(1.6); }
+  85% { opacity: 0.3; transform: translate(-50%, -50%) scale(1.3); }
+  95% { opacity: 0.15; transform: translate(-50%, -50%) scale(0.8); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+}
+
+@keyframes pressureGlowSequence {
+  0%, 25% { opacity: 0; transform: translate(-50%, -50%) scale(0.1); }
+  30% { opacity: 0.2; transform: translate(-50%, -50%) scale(0.8); }
+  48% { opacity: 0.35; transform: translate(-49%, -51%) scale(1.1); }
+  52% { opacity: 0.5; transform: translate(-51%, -49%) scale(1.2); }
+  72% { opacity: 0.3; transform: translate(-48%, -52%) scale(1.4); }
+  76% { opacity: 0.45; transform: translate(-52%, -48%) scale(1.5); }
+  90% { opacity: 0.2; transform: translate(-50%, -50%) scale(1.1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+}
+
+/* Sparkle cloud container */
+.sparkleCloud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3; /* Above glow, below icons */
+  opacity: 0; /* Start completely invisible like glow */
+
+  /* Apply expanding mask to reveal sparkles as energy wave passes */
+  mask: radial-gradient(circle at calc(100% - 29px) 50%,
+    transparent 0px,
+    transparent 10px
+  );
+  -webkit-mask: radial-gradient(circle at calc(100% - 29px) 50%,
+    transparent 0px,
+    transparent 10px
+  );
+
+  /* Animate both the mask radius AND opacity - extended for longer afterglow effect */
+  animation: physicsSparkleReveal 2.2s ease-out 0.3s forwards, physicsSparkleOpacity 4.3s ease-out 0.3s forwards;
+}
+
+/* Extended sparkle cloud container - separate timing for afterglow */
+.extendedSparkleCloud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3; /* Above glow, below icons */
+  opacity: 0; /* Start completely invisible */
+
+  /* Apply expanding mask to reveal sparkles as energy wave passes */
+  mask: radial-gradient(circle at calc(100% - 29px) 50%,
+    white 130px,
+    transparent 150px
+  );
+  -webkit-mask: radial-gradient(circle at calc(100% - 29px) 50%,
+    white 130px,
+    transparent 150px
+  );
+
+  /* Extended timing for afterglow sparkles */
+  animation: extendedSparkleOpacity 3.8s ease-out 1.2s forwards;
+}
+
+/* Physics-driven sparkle opacity - follows energy wave propagation */
+@keyframes physicsSparkleOpacity {
+  0% {
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.4;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  35% {
+    opacity: 1;
+  }
+  45% {
+    opacity: 0.7;
+  }
+  55% {
+    opacity: 0.9;
+  }
+  65% {
+    opacity: 0.6;
+  }
+  75% {
+    opacity: 0.4;
+  }
+  85% {
+    opacity: 0.3;
+  }
+  92% {
+    opacity: 0.2;
+  }
+  96% {
+    opacity: 0.1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Extended sparkle opacity - optimized for afterglow timing */
+@keyframes extendedSparkleOpacity {
+  0% {
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.6;
+  }
+  15% {
+    opacity: 0.9;
+  }
+  25% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 0.8;
+  }
+  55% {
+    opacity: 0.6;
+  }
+  70% {
+    opacity: 0.4;
+  }
+  85% {
+    opacity: 0.2;
+  }
+  95% {
+    opacity: 0.1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes physicsSparkleReveal {
+  0% {
+    mask: radial-gradient(circle at calc(100% - 29px) 50%,
+      transparent 0px,
+      transparent 5px
+    );
+    -webkit-mask: radial-gradient(circle at calc(100% - 29px) 50%,
+      transparent 0px,
+      transparent 5px
+    );
+  }
+  25% {
+    mask: radial-gradient(circle at calc(100% - 29px) 50%,
+      white 30px,
+      transparent 40px
+    );
+    -webkit-mask: radial-gradient(circle at calc(100% - 29px) 50%,
+      white 30px,
+      transparent 40px
+    );
+  }
+  50% {
+    mask: radial-gradient(circle at calc(100% - 29px) 50%,
+      white 60px,
+      transparent 75px
+    );
+    -webkit-mask: radial-gradient(circle at calc(100% - 29px) 50%,
+      white 60px,
+      transparent 75px
+    );
+  }
+  75% {
+    mask: radial-gradient(circle at calc(100% - 29px) 50%,
+      white 90px,
+      transparent 110px
+    );
+    -webkit-mask: radial-gradient(circle at calc(100% - 29px) 50%,
+      white 90px,
+      transparent 110px
+    );
+  }
+  100% {
+    mask: radial-gradient(circle at calc(100% - 29px) 50%,
+      white 130px,
+      transparent 150px
+    );
+    -webkit-mask: radial-gradient(circle at calc(100% - 29px) 50%,
+      white 130px,
+      transparent 150px
+    );
+  }
+}
+
+/* Individual sparkles in the cloud */
+.sparkle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+
+  /* Create bright sparkle with star-like radial gradient inspired by stars assets */
+  background: radial-gradient(circle,
+    rgba(255, 255, 255, var(--sparkle-intensity, 1)) 0%,
+    rgba(253, 230, 194, calc(var(--sparkle-intensity, 1) * 0.95)) 3%,
+    rgba(251, 209, 146, calc(var(--sparkle-intensity, 1) * 0.9)) 5%,
+    rgba(250, 195, 111, calc(var(--sparkle-intensity, 1) * 0.85)) 8%,
+    rgba(250, 186, 89, calc(var(--sparkle-intensity, 1) * 0.8)) 9%,
+    rgba(250, 183, 82, calc(var(--sparkle-intensity, 1) * 0.75)) 11%,
+    rgba(243, 111, 34, calc(var(--sparkle-intensity, 1) * 0.6)) 19%,
+    rgba(159, 73, 22, calc(var(--sparkle-intensity, 1) * 0.4)) 24%,
+    rgba(129, 59, 18, calc(var(--sparkle-intensity, 1) * 0.3)) 26%,
+    rgba(102, 46, 14, calc(var(--sparkle-intensity, 1) * 0.2)) 28%,
+    rgba(92, 42, 13, calc(var(--sparkle-intensity, 1) * 0.15)) 30%,
+    rgba(69, 31, 9, calc(var(--sparkle-intensity, 1) * 0.1)) 40%,
+    rgba(39, 17, 5, calc(var(--sparkle-intensity, 1) * 0.05)) 56%,
+    rgba(17, 7, 2, calc(var(--sparkle-intensity, 1) * 0.02)) 71%,
+    rgba(4, 2, 0, calc(var(--sparkle-intensity, 1) * 0.01)) 86%,
+    transparent 100%
+  );
+
+  border-radius: 50%;
+  /* Remove individual sparkle animation - let container control visibility */
+  transform: translate(-50%, -50%) scale(calc(var(--sparkle-scale, 1)));
+  opacity: 1; /* Always visible when container shows them */
+
+  /* Apply screen blend mode for proper glowing effect */
+  mix-blend-mode: screen;
+  filter: blur(0.3px) saturate(1.4);
+}
+
+@keyframes sparkleBloom {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.1) rotate(0deg);
+  }
+  5% {
+    opacity: 0.05;
+    transform: translate(-50%, -50%) scale(calc(var(--sparkle-scale, 1) * 0.15)) rotate(8deg);
+  }
+  12% {
+    opacity: 0.15;
+    transform: translate(-50%, -50%) scale(calc(var(--sparkle-scale, 1) * 0.25)) rotate(20deg);
+  }
+  25% {
+    opacity: 0.35;
+    transform: translate(-50%, -50%) scale(calc(var(--sparkle-scale, 1) * 0.4)) rotate(45deg);
+  }
+  40% {
+    opacity: 0.65;
+    transform: translate(-50%, -50%) scale(calc(var(--sparkle-scale, 1) * 0.7)) rotate(80deg);
+  }
+  55% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(calc(var(--sparkle-scale, 1) * 1.1)) rotate(120deg);
+  }
+  70% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(calc(var(--sparkle-scale, 1) * 0.9)) rotate(180deg);
+  }
+  85% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(calc(var(--sparkle-scale, 1) * 0.6)) rotate(270deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2) rotate(360deg);
+  }
+}
+
+/* Create variety in sparkle types */
+.sparkle:nth-child(2n) {
+  background: radial-gradient(circle,
+    rgba(255, 255, 255, var(--sparkle-intensity, 1)) 0%,
+    rgba(253, 230, 194, calc(var(--sparkle-intensity, 1) * 0.95)) 5%,
+    rgba(251, 209, 146, calc(var(--sparkle-intensity, 1) * 0.9)) 10%,
+    rgba(250, 195, 111, calc(var(--sparkle-intensity, 1) * 0.8)) 15%,
+    rgba(243, 111, 34, calc(var(--sparkle-intensity, 1) * 0.6)) 25%,
+    rgba(159, 73, 22, calc(var(--sparkle-intensity, 1) * 0.4)) 40%,
+    rgba(92, 42, 13, calc(var(--sparkle-intensity, 1) * 0.2)) 60%,
+    rgba(39, 17, 5, calc(var(--sparkle-intensity, 1) * 0.1)) 80%,
+    transparent 100%
+  );
+  width: 3px;
+  height: 3px;
+}
+
+.sparkle:nth-child(3n) {
+  background: radial-gradient(circle,
+    rgba(255, 255, 255, var(--sparkle-intensity, 1)) 0%,
+    rgba(253, 230, 194, calc(var(--sparkle-intensity, 1) * 0.98)) 2%,
+    rgba(250, 195, 111, calc(var(--sparkle-intensity, 1) * 0.9)) 6%,
+    rgba(250, 186, 89, calc(var(--sparkle-intensity, 1) * 0.85)) 8%,
+    rgba(243, 111, 34, calc(var(--sparkle-intensity, 1) * 0.7)) 15%,
+    rgba(159, 73, 22, calc(var(--sparkle-intensity, 1) * 0.5)) 20%,
+    rgba(129, 59, 18, calc(var(--sparkle-intensity, 1) * 0.35)) 25%,
+    rgba(69, 31, 9, calc(var(--sparkle-intensity, 1) * 0.2)) 35%,
+    rgba(17, 7, 2, calc(var(--sparkle-intensity, 1) * 0.05)) 50%,
+    transparent 70%
+  );
+  width: 6px;
+  height: 6px;
+}
+
+.sparkle:nth-child(4n) {
+  background: radial-gradient(circle,
+    rgba(255, 255, 255, var(--sparkle-intensity, 1)) 0%,
+    rgba(253, 230, 194, calc(var(--sparkle-intensity, 1) * 0.9)) 8%,
+    rgba(251, 209, 146, calc(var(--sparkle-intensity, 1) * 0.7)) 20%,
+    rgba(243, 111, 34, calc(var(--sparkle-intensity, 1) * 0.5)) 35%,
+    rgba(159, 73, 22, calc(var(--sparkle-intensity, 1) * 0.3)) 50%,
+    rgba(92, 42, 13, calc(var(--sparkle-intensity, 1) * 0.15)) 70%,
+    rgba(39, 17, 5, calc(var(--sparkle-intensity, 1) * 0.05)) 85%,
+    transparent 100%
+  );
+  width: 2px;
+  height: 2px;
+}
+
+/* Glitter cloud container */
+.glitterCloud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2; /* Above glow, below sparkles */
+}
+
+/* Individual glitter particles */
+.glitter {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+
+  /* Create subtle glitter with star-like gradient */
+  background: radial-gradient(circle,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(253, 230, 194, 0.8) 8%,
+    rgba(251, 209, 146, 0.6) 15%,
+    rgba(250, 195, 111, 0.5) 25%,
+    rgba(243, 111, 34, 0.3) 40%,
+    rgba(159, 73, 22, 0.2) 60%,
+    rgba(92, 42, 13, 0.1) 80%,
+    transparent 100%
+  );
+
+  border-radius: 50%;
+  animation: glitterTwinkle var(--glitter-duration, 2s) ease-in-out forwards;
+  transform: translate(-50%, -50%);
+
+  /* Apply screen blend mode for proper glowing effect */
+  mix-blend-mode: screen;
+  filter: blur(0.2px) saturate(1.2);
+}
+
+@keyframes glitterTwinkle {
+  0%, 100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.1);
+  }
+  10% {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(calc(var(--glitter-scale, 1) * 0.5));
+  }
+  25% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(calc(var(--glitter-scale, 1) * 1.2));
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(calc(var(--glitter-scale, 1) * 0.7));
+  }
+  75% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(calc(var(--glitter-scale, 1) * 1.0));
+  }
+  90% {
+    opacity: 0.2;
+    transform: translate(-50%, -50%) scale(calc(var(--glitter-scale, 1) * 0.4));
+  }
+}
+
+/* Enhanced energy waves for more dramatic effect */
+.energyWaves {
+  position: absolute;
+  top: 50%;
+  left: calc(100% - 29px);
+  width: 120px;
+  height: 120px;
+  transform: translate(-50%, -50%);
+  z-index: 0; /* Behind everything */
+}
+
+/* Advanced multi-phase wave system */
+.wave {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Primary waves - initial containment failure */
+.primaryWave {
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  animation: primaryWaveExpansion 0.4s ease-out forwards;
+}
+
+/* Pressure waves - energy buildup */
+.pressureWave {
+  width: 15px;
+  height: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  animation: pressureWaveExpansion 1.0s ease-out forwards;
+}
+
+/* Breakthrough waves - first major release */
+.breakthroughWave {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  animation: breakthroughWaveExpansion 1.2s ease-out forwards;
+}
+
+/* Critical waves - system overload */
+.criticalWave {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(155, 155, 255, 0.7);
+  animation: criticalWaveExpansion 1.0s ease-out forwards;
+}
+
+/* Explosive waves - final release */
+.explosiveWave {
+  width: 25px;
+  height: 25px;
+  border: 3.5px solid rgba(222, 222, 255, 0.3);
+  animation: explosiveWaveExpansion 1.5s ease-out forwards;
+}
+
+/* Dynamic positioning for realistic shake effects */
+.offsetWave1 { transform: translate(-48%, -52%); }
+.offsetWave2 { transform: translate(-52%, -48%); }
+.offsetWave3 { transform: translate(-47%, -53%); }
+
+/* Wave expansion animations with realistic physics */
+@keyframes primaryWaveExpansion {
+  0% {
+    transform: translate(-50%, -50%) scale(0.1);
+    opacity: 0.8;
+    border-width: 2px;
+  }
+  30% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.6;
+    border-width: 1.8px;
+  }
+  70% {
+    transform: translate(-50%, -50%) scale(2.8);
+    opacity: 0.3;
+    border-width: 1.2px;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(4.5);
+    opacity: 0;
+    border-width: 0.4px;
+  }
+}
+
+@keyframes pressureWaveExpansion {
+  0% {
+    transform: translate(-50%, -50%) scale(0.2);
+    opacity: 0.7;
+    border-width: 2px;
+    filter: blur(0px);
+  }
+  40% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0.5;
+    border-width: 1.6px;
+    filter: blur(0.2px);
+  }
+  80% {
+    transform: translate(-50%, -50%) scale(3.5);
+    opacity: 0.2;
+    border-width: 0.8px;
+    filter: blur(0.5px);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(5.2);
+    opacity: 0;
+    border-width: 0.2px;
+    filter: blur(0.8px);
+  }
+}
+
+@keyframes breakthroughWaveExpansion {
+  0% {
+    transform: translate(-50%, -50%) scale(0.15);
+    opacity: 0.8;
+    border-width: 2.5px;
+    filter: brightness(1.0);
+  }
+  25% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.7;
+    border-width: 2.8px;
+    filter: brightness(1.1);
+  }
+  60% {
+    transform: translate(-50%, -50%) scale(2.5);
+    opacity: 0.4;
+    border-width: 1.5px;
+    filter: brightness(1.0);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(4.8);
+    opacity: 0;
+    border-width: 0.4px;
+    filter: brightness(0.9);
+  }
+}
+
+@keyframes criticalWaveExpansion {
+  0% {
+    transform: translate(-50%, -50%) scale(0.1);
+    opacity: 0.9;
+    border-width: 3px;
+    filter: saturate(1.0) brightness(1.1);
+  }
+  20% {
+    transform: translate(-50%, -50%) scale(0.6);
+    opacity: 0.8;
+    border-width: 3.5px;
+    filter: saturate(1.2) brightness(1.2);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(2.0);
+    opacity: 0.5;
+    border-width: 2.2px;
+    filter: saturate(1.1) brightness(1.1);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(4.2);
+    opacity: 0;
+    border-width: 0.6px;
+    filter: saturate(0.9) brightness(0.9);
+  }
+}
+
+@keyframes explosiveWaveExpansion {
+  0% {
+    transform: translate(-50%, -50%) scale(0.05);
+    opacity: 1;
+    border-width: 3.5px;
+    filter: saturate(1.2) brightness(1.3) contrast(1.1);
+  }
+  15% {
+    transform: translate(-50%, -50%) scale(0.4);
+    opacity: 0.9;
+    border-width: 4px;
+    filter: saturate(1.4) brightness(1.5) contrast(1.2);
+  }
+  40% {
+    transform: translate(-50%, -50%) scale(1.8);
+    opacity: 0.6;
+    border-width: 3px;
+    filter: saturate(1.2) brightness(1.3) contrast(1.1);
+  }
+  80% {
+    transform: translate(-50%, -50%) scale(3.8);
+    opacity: 0.3;
+    border-width: 1.5px;
+    filter: saturate(1.0) brightness(1.1) contrast(1.0);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(6.0);
+    opacity: 0;
+    border-width: 0.2px;
+    filter: saturate(0.8) brightness(0.9) contrast(0.9);
+  }
+}
+
+/* Advanced sparkle system with physics-based timing */
+.sparkle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(253, 230, 194, 1) 3%,
+    rgba(251, 209, 146, 0.95) 5%,
+    rgba(250, 195, 111, 0.9) 8%,
+    rgba(250, 186, 89, 0.85) 9%,
+    rgba(250, 183, 82, 0.8) 11%,
+    rgba(243, 111, 34, 0.7) 19%,
+    rgba(159, 73, 22, 0.5) 24%,
+    rgba(129, 59, 18, 0.4) 26%,
+    rgba(102, 46, 14, 0.3) 28%,
+    rgba(92, 42, 13, 0.25) 30%,
+    rgba(69, 31, 9, 0.2) 40%,
+    rgba(39, 17, 5, 0.1) 56%,
+    rgba(17, 7, 2, 0.05) 71%,
+    rgba(4, 2, 0, 0.02) 86%,
+    transparent 100%
+  );
+  border-radius: 50%;
+  opacity: 0;
+  z-index: 5;
+  animation: sparklePhase1 2.8s ease-out forwards;
+  mix-blend-mode: screen;
+  filter: blur(0.2px) saturate(1.3);
+}
+
+/* Micro sparkles - fine energy particles */
+.microSparkle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: radial-gradient(circle,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(253, 230, 194, 0.9) 5%,
+    rgba(251, 209, 146, 0.8) 10%,
+    rgba(250, 195, 111, 0.7) 15%,
+    rgba(250, 186, 89, 0.6) 20%,
+    rgba(243, 111, 34, 0.4) 35%,
+    rgba(159, 73, 22, 0.3) 50%,
+    rgba(92, 42, 13, 0.2) 70%,
+    rgba(39, 17, 5, 0.1) 85%,
+    transparent 100%
+  );
+  border-radius: 50%;
+  opacity: 0;
+  z-index: 4;
+  animation: microSparkleAnimation 2.2s ease-out forwards;
+  mix-blend-mode: screen;
+  filter: blur(0.1px) saturate(1.2);
+}
+
+/* Energy distortion field */
+.energyDistortion {
+  position: absolute;
+  top: 50%;
+  left: calc(100% - 29px);
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle,
+    transparent 0%,
+    rgba(255, 255, 255, 0.02) 30%,
+    rgba(255, 255, 255, 0.04) 50%,
+    rgba(255, 255, 255, 0.06) 70%,
+    transparent 100%
+  );
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: energyDistortionPulse 2.5s ease-out;
+  filter: blur(40px);
+  z-index: -1;
+  opacity: 0;
+}
+
+/* Advanced sparkle animations with realistic physics */
+@keyframes sparklePhase1 {
+  0% {
+    opacity: 0;
+    transform: scale(0.1) rotate(0deg);
+    filter: brightness(1.0);
+  }
+  5% {
+    opacity: 1;
+    transform: scale(1.2) rotate(15deg);
+    filter: brightness(1.5);
+  }
+  25% {
+    opacity: 1;
+    transform: scale(1.0) rotate(180deg);
+    filter: brightness(2.0);
+  }
+  45% {
+    opacity: 0.9;
+    transform: scale(0.8) rotate(340deg);
+    filter: brightness(1.2);
+  }
+  65% {
+    opacity: 0.6;
+    transform: scale(0.7) rotate(450deg);
+    filter: brightness(1.0);
+  }
+  80% {
+    opacity: 0.4;
+    transform: scale(0.5) rotate(520deg);
+    filter: brightness(0.9);
+  }
+  92% {
+    opacity: 0.2;
+    transform: scale(0.4) rotate(580deg);
+    filter: brightness(0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.3) rotate(600deg);
+    filter: brightness(0.7);
+  }
+}@keyframes sparklePhase2 {
+  0% {
+    opacity: 0;
+    transform: scale(0.05) rotate(0deg);
+    filter: brightness(1.2) saturate(1.0);
+  }
+  15% {
+    opacity: 0.9;
+    transform: scale(1.5) rotate(25deg);
+    filter: brightness(1.8) saturate(1.3);
+  }
+  45% {
+    opacity: 1;
+    transform: scale(1.1) rotate(160deg);
+    filter: brightness(2.2) saturate(1.5);
+  }
+  80% {
+    opacity: 0.7;
+    transform: scale(0.9) rotate(320deg);
+    filter: brightness(1.4) saturate(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.2) rotate(360deg);
+    filter: brightness(0.9) saturate(0.8);
+  }
+}
+
+@keyframes sparklePhase3 {
+  0% {
+    opacity: 0;
+    transform: scale(0.08) rotate(0deg);
+    filter: brightness(1.5) saturate(1.2) contrast(1.0);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1.8) rotate(40deg);
+    filter: brightness(2.5) saturate(1.6) contrast(1.3);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.3) rotate(140deg);
+    filter: brightness(2.8) saturate(1.8) contrast(1.5);
+  }
+  75% {
+    opacity: 0.8;
+    transform: scale(1.0) rotate(300deg);
+    filter: brightness(1.8) saturate(1.2) contrast(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.4) rotate(360deg);
+    filter: brightness(1.0) saturate(0.9) contrast(0.9);
+  }
+}
+
+@keyframes microSparkleAnimation {
+  0% {
+    opacity: 0;
+    transform: scale(0.1);
+    filter: brightness(1.0);
+  }
+  15% {
+    opacity: 0.9;
+    transform: scale(1.5);
+    filter: brightness(2.0);
+  }
+  35% {
+    opacity: 1;
+    transform: scale(1.0);
+    filter: brightness(1.5);
+  }
+  60% {
+    opacity: 0.7;
+    transform: scale(0.8);
+    filter: brightness(1.2);
+  }
+  80% {
+    opacity: 0.4;
+    transform: scale(0.6);
+    filter: brightness(1.0);
+  }
+  95% {
+    opacity: 0.1;
+    transform: scale(0.4);
+    filter: brightness(0.9);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.3);
+    filter: brightness(0.8);
+  }
+}@keyframes energyDistortionPulse {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3);
+    filter: blur(40px) brightness(1.0);
+  }
+  15% {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(0.7);
+    filter: blur(35px) brightness(1.2);
+  }
+  30% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1.0);
+    filter: blur(30px) brightness(1.5);
+  }
+  60% {
+    opacity: 0.7;
+    transform: translate(-50%, -50%) scale(1.3);
+    filter: blur(25px) brightness(1.8);
+  }
+  90% {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1.6);
+    filter: blur(20px) brightness(1.3);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2.0);
+    filter: blur(15px) brightness(1.0);
+  }
+}

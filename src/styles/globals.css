@@ -1,0 +1,170 @@
+/* Global styles and design tokens */
+@import '@fontsource/ubuntu/400.css';
+@import '@fontsource/ubuntu/500.css';
+
+:root {
+  /* Colors */
+  --color-background: #000000;
+  --color-surface: #191919;
+  --color-surface-light: #3C3C3C;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #CCCCCC;
+  --color-primary: #FA114F;
+
+  /* Gradients */
+  --gradient-hero: linear-gradient(180deg, #012038 0%, #22A1D7 42%, #24AAD0 58%, #1AD5DE 66%, #21F4AD 83%, #045238 100%);
+  --gradient-rainbow: linear-gradient(90deg, #F9A836 5%, #FFEA43 18%, #83EA9A 30%, #0FEAF1 32%, #3492F0 46%, #6362E2 60%, #9150C4 72%, #C55B7B 88%, #FA7532 100%);
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --spacing-xxl: 32px;
+
+  /* Typography */
+  --font-family: 'Ubuntu', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  --font-size-xs: 10px;
+  --font-size-sm: 12px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --line-height-xs: 12px;
+  --line-height-sm: 16.8px;
+  --line-height-md: 19.6px;
+  --line-height-lg: 22.4px;
+  --line-height-xl: 25.2px;
+
+  /* Border radius */
+  --border-radius-sm: 4px;
+  --border-radius-md: 6px;
+  --border-radius-lg: 10px;
+
+  /* Game card dimensions */
+  --card-standard-width: 112px;
+  --card-standard-height: 149px;
+  --card-large-width: 186px;
+  --card-large-height: 248px;
+  --card-small-width: 90px;
+  --card-small-height: 120px;
+
+  /* Layout */
+  --container-padding: 12px;
+  --section-gap: 10px;
+  --card-gap: 8px;
+
+  /* Breakpoints for container queries */
+  --mobile-width: 414px;
+}
+
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-normal);
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Remove default button styles */
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Remove default link styles */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Image defaults */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Utility classes */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Scrollbar styling for horizontal scrollers */
+.horizontal-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Smooth scroll snap for horizontal scrollers */
+.scroll-snap-x {
+  scroll-snap-type: x mandatory;
+}
+
+.scroll-snap-start {
+  scroll-snap-align: start;
+}
+
+/* Container max-width for larger screens */
+.container {
+  width: 100%;
+  max-width: 414px;
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1200px;
+  }
+}

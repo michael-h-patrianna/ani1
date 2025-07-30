@@ -1,0 +1,266 @@
+.progressContainer {
+  --progress-value: 0;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* New effects layer spanning full progress bar */
+.effectsLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3; /* Above progress bar, below icons */
+  pointer-events: none; /* Don't interfere with clicks */
+}
+
+.progressBar {
+  position: relative;
+  width: 100%;
+  height: 28px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background: rgba(51, 51, 51, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.progressBar::before {
+  content: '';
+  position: absolute;
+  border-radius: inherit;
+  background: rgba(51, 51, 51, 1);
+  inset: 1px;
+  height: calc(100% - 2px);
+  top: 1px;
+}
+
+.progressBar::after {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  height: calc(100% - 2px);
+  width: calc(var(--progress-value) - 2px);
+  max-width: calc(100% - 2px);
+  transition: width 0.3s ease;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #00ff4161 0%, #00ff41 100%);
+}
+
+.failed .progressBar::after {
+  background: linear-gradient(90deg, #ff4141 0%, #e6381d 100%);
+}
+
+.progressLabel {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 10px;
+  color: #fff;
+  font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  white-space: nowrap;
+}
+
+.progress {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.leftIcon,
+.rightIcon {
+  position: absolute;
+  z-index: 4; /* Above effects layer */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.leftIcon {
+  left: 12px; /* 20px padding - 8px overlap */
+  width: 34px;
+  height: 36px;
+}
+
+.rightIcon {
+  right: 12px; /* 20px padding - 8px overlap */
+  width: 34px;
+  height: 41px;
+  overflow: visible; /* Allow effects to extend beyond icon bounds */
+}
+
+.leftIcon img,
+.rightIcon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+  position: relative;
+  z-index: 2; /* Icon above effects */
+}
+
+/* V9 Celebration - Gentle organic icon animation with bouncy wiggle */
+.iconCelebrate {
+  animation: iconCelebrationGlow 3s ease-in-out, iconCelebrationWiggle 0.9s ease-in-out;
+}
+
+.iconCelebrate img {
+  animation: iconCelebrationFilter 3s ease-in-out;
+}
+
+/* Gentle glow that pulses with the celebration */
+@keyframes iconCelebrationGlow {
+  0% {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+  }
+  20% {
+    filter: drop-shadow(0 2px 6px rgba(255, 182, 193, 0.3)) drop-shadow(0 0 8px rgba(255, 182, 193, 0.2));
+  }
+  50% {
+    filter: drop-shadow(0 2px 6px rgba(255, 182, 193, 0.4)) drop-shadow(0 0 12px rgba(255, 182, 193, 0.3));
+  }
+  80% {
+    filter: drop-shadow(0 2px 6px rgba(255, 182, 193, 0.2)) drop-shadow(0 0 6px rgba(255, 182, 193, 0.15));
+  }
+  100% {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+  }
+}
+
+/* Subtle brightness and saturation changes */
+@keyframes iconCelebrationFilter {
+  0% {
+    filter: brightness(1) saturate(1);
+  }
+  25% {
+    filter: brightness(1.05) saturate(1.1);
+  }
+  50% {
+    filter: brightness(1.1) saturate(1.15);
+  }
+  75% {
+    filter: brightness(1.05) saturate(1.1);
+  }
+  100% {
+    filter: brightness(1) saturate(1);
+  }
+}
+
+/* Bouncy wiggle animation - more pronounced and faster */
+@keyframes iconCelebrationWiggle {
+  0% {
+    transform: translateY(-50%) translateX(0) rotate(0deg);
+  }
+  10% {
+    transform: translateY(-50%) translateX(-2px) rotate(-2deg);
+  }
+  20% {
+    transform: translateY(-52%) translateX(2px) rotate(3deg);
+  }
+  30% {
+    transform: translateY(-48%) translateX(-1.5px) rotate(-2.5deg);
+  }
+  40% {
+    transform: translateY(-52%) translateX(1.5px) rotate(2deg);
+  }
+  50% {
+    transform: translateY(-49%) translateX(-1px) rotate(-1.5deg);
+  }
+  60% {
+    transform: translateY(-51%) translateX(1px) rotate(1.5deg);
+  }
+  70% {
+    transform: translateY(-50%) translateX(-0.5px) rotate(-1deg);
+  }
+  80% {
+    transform: translateY(-50.5%) translateX(0.5px) rotate(0.5deg);
+  }
+  90% {
+    transform: translateY(-49.5%) translateX(-0.2px) rotate(-0.3deg);
+  }
+  100% {
+    transform: translateY(-50%) translateX(0) rotate(0deg);
+  }
+}
+
+/* Icon shake effect - only shakes the right icon */
+.iconShake {
+  animation: iconChargingShake 0.7s ease-in-out;
+}
+
+/* Icon bounce effect - gentle celebration bounce */
+.iconBounce {
+  animation: iconCelebrationBounce 0.6s ease-out;
+}
+
+@keyframes iconChargingShake {
+  0% {
+    transform: translateY(-50%) translateX(0);
+  }
+  8% {
+    transform: translateY(-50%) translateX(-2px);
+  }
+  16% {
+    transform: translateY(-50%) translateX(2px);
+  }
+  24% {
+    transform: translateY(-50%) translateX(-1.5px);
+  }
+  32% {
+    transform: translateY(-50%) translateX(1.5px);
+  }
+  40% {
+    transform: translateY(-50%) translateX(-2.5px);
+  }
+  48% {
+    transform: translateY(-50%) translateX(2.5px);
+  }
+  56% {
+    transform: translateY(-50%) translateX(-1px);
+  }
+  64% {
+    transform: translateY(-50%) translateX(1px);
+  }
+  72% {
+    transform: translateY(-50%) translateX(-0.5px);
+  }
+  80% {
+    transform: translateY(-50%) translateX(0.5px);
+  }
+  88% {
+    transform: translateY(-50%) translateX(-0.2px);
+  }
+  96% {
+    transform: translateY(-50%) translateX(0.2px);
+  }
+  100% {
+    transform: translateY(-50%) translateX(0);
+  }
+}
+
+@keyframes iconCelebrationBounce {
+  0% {
+    transform: translateY(-50%) scale(1);
+  }
+  30% {
+    transform: translateY(-50%) scale(1.15);
+  }
+  60% {
+    transform: translateY(-50%) scale(0.95);
+  }
+  100% {
+    transform: translateY(-50%) scale(1);
+  }
+}
